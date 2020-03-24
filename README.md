@@ -1,6 +1,6 @@
 # KataScan
 Check your RS CW stats faster.  
-https://auseika.github.io/kata-scan/
+https://Olys1703.github.io/kata-scan/
 
 # Request example:  
 ```

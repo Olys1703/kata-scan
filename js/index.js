@@ -4,6 +4,7 @@ let username;
 const lang = 'javascript';
 let userArr;
 let cwArr;
+let idArr;
 
 const inputField = document.querySelector('.inputField');
 const tryBtn = document.querySelector('.tryBtn');
@@ -22,6 +23,7 @@ function parseURL() {
   userArr = userArr.filter(element => element !== ''); // filtering empty strings
   userArr = userArr.map(element => element.match(regex)[0]); // getting urls
   userArr = userArr.map(element => element.replace(/\/$/, '')); // deleting trailing slashes
+  userArr = userArr.map(element => element.indexOf('/' + lang) !== -1? element.slice(0, element.indexOf('/' + lang)) : element);
 }
 
 async function getKata(page = 0) {
@@ -53,13 +55,14 @@ async function click() {
   }
 
   cwArr = cwArr.data.filter(n => n.completedLanguages.includes(lang)); // getting data on requested lang
+  idArr = cwArr.map(n => n.id);
   cwArr = cwArr.map(n => n.slug); // extracting "slugs"
 
   // comparing "slugs", filling resulting arrays
   // too complicated, O(n^2) after apllying to str array
   userArr.forEach((element) => {
     const afterSlash = /[^/]*$/.exec(element)[0]; // extracting last parts of urls ("slugs")
-    if (cwArr.includes(afterSlash)) {
+    if (cwArr.includes(afterSlash) || idArr.includes(afterSlash)) {
       resultY.push(element);
     } else {
       resultN.push(element);
